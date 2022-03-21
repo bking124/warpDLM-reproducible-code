@@ -1,6 +1,41 @@
-# WarpDLM Code
+# WarpDLM Reproducibility Guide
 
-This folder contains the code necessary to reproduce the results in the paper "Warped Dynamic Linear Models for Time Series of Counts".
+This repository contains the code necessary to reproduce the results in the paper ["Warped Dynamic Linear Models for Time Series of Counts"](https://arxiv.org/abs/2110.14790).  There are three main folders:
+
+* Data: Contains raw and cleaned data 
+* Code: Contains all R scripts needed to run analysis
+* Outputs: Contains any model outputs as well as paper figures
+
+## Dependencies and Environments
+All analysis was run in R, version 4.0.0 or higher. The bulk of the analysis was performed on a Windows laptop, with the exception of the simulations, which were run on an Rstudio Server instance hosted on a multi-core Linux server.
+
+There are a variety of required packages, which can be installed using the following lines of code.
+
+    #Install packages from Github
+    install.packages("remotes")
+    remotes::install_github("drkowal/rSTAR")
+    
+    #Install other 
+    install.packages(c("doParallel", "foreach", "KFAS", "coda",
+                        "truncdist", "doSNOW", "tscount", "VGAM",
+                        "tidyverse", "dlm", "mc2d", "bayesplot",
+                        "TruncatedNormal", "mvnfast"))
+
+    
+
+## Data
+In this article, we use the warpDLM methodology to analyze counts of overdose calls due to heroin and other drugs in the the city of Cincinnati.  This is derived from the full set of incident reports to the Cincinnati Fire Department, publicly available at [this link](https://data.cincinnati-oh.gov/Safety/Cincinnati-Fire-Incidents-CAD-including-EMS-ALS-BL/vnsz-a3wp).  In addition to the data set itself, data dictionaries and descriptions of coding are also provided.  This information was used to determine which calls corresponded to overdoses.
+
+The Data folder in this repository contains [a single CSV](Data/Cincinnati_Fire_Incidents.csv), which is the downloaded data set as of February 2020, used for all analysis.
+
+## Application Results
+
+
+
+## Simulation Results
+
+
+
 
 The root folder contains the following files:
 - helper_functions.R: a collection of useful functions used often in warpDLM analyses
