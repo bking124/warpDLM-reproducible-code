@@ -16,10 +16,10 @@ There are a variety of required packages, which can be installed using the follo
     remotes::install_github("drkowal/rSTAR")
     
     #Install other 
-    install.packages(c("doParallel", "foreach", "KFAS", "coda",
-                        "truncdist", "doSNOW", "tscount", "VGAM",
-                        "tidyverse", "dlm", "mc2d", "bayesplot",
-                        "TruncatedNormal", "mvnfast"))
+    install.packages(c("doParallel", "foreach", "KFAS", "coda", "truncdist", 
+                        "doSNOW", "tscount", "VGAM", "tidyverse", "dlm", 
+                        "mc2d", "bayesplot", "TruncatedNormal", "mvnfast",
+                        "magrittr", "lubridate"))
 
     
 
