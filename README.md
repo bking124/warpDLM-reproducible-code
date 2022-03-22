@@ -26,10 +26,10 @@ There are a variety of required packages, which can be installed using the follo
 ## Data
 In this article, we use the warpDLM methodology to analyze counts of overdose calls due to heroin and other drugs in the the city of Cincinnati.  This is derived from the full set of incident reports to the Cincinnati Fire Department, publicly available at [this link](https://data.cincinnati-oh.gov/Safety/Cincinnati-Fire-Incidents-CAD-including-EMS-ALS-BL/vnsz-a3wp).  In addition to the data set itself, data dictionaries and descriptions of coding are also provided.  This information was used to determine which calls corresponded to overdoses.
 
-The Data folder in this repository contains [a single CSV](Data/Cincinnati_Fire_Incidents.zip), which is the downloaded data set as of February 2020, used for all analysis.
+The raw data used for this project was downloaded in February 2020 and can be found [here](Data/Cincinnati_Fire_Incidents.zip).
 
-## Application Results
-
+## Application
+There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored in the Outputs repository, under[ModelResults](Outputs/ModelResults/application). Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
 
 
 ## Simulation Results
