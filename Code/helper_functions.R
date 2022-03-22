@@ -339,3 +339,39 @@ ergAverage <- function(x){
   plot(ave, type='l')
   title(main="Ergodic Average")
 }
+
+#Direct sampler for local level model using selection normal theory
+dirSampler_locLev <- function(y, V, W, g, g_inv, y_max, R0=3){
+  n = length(y)
+  
+  #Create system matrices
+  mu_z <- array(0,n)
+  #Create Sigma_z
+  Sigma_z <- matrix(0, n,n)
+  j=W+R0
+  for(i in 1:n){
+    Sigma_z[i,] <- rep(j, n)
+    j=j+W
+  }
+  Sigma_z[lower.tri(Sigma_z)] <- 0
+  Sigma_z <- Sigma_z + t(Sigma_z)
+  diag(Sigma_z) <- seq(W+R0, n*W+R0, by=W) +V
+  
+  #Create Sigma_ztheta
+  Sigma_ztheta <- Sigma_z
+  diag(Sigma_ztheta) <- diag(Sigma_ztheta)-V
+  Sigma_theta <- Sigma_ztheta
+  
+  #Try Sampling
+  #Draw from distribution
+  V_1var <- Sigma_theta - t(Sigma_ztheta)%*%solve(Sigma_z)%*%Sigma_ztheta
+  V_1samp <- mvrnorm(10^4, rep(0,nrow(V_1var)), V_1var)
+  #V_1samp <- rmvn(10^4, rep(0,nrow(V_1var)), V_1var) #rmvn is faster but Cholesky decomposition is more unstable
+  V_0samp <- rtmvnorm(10^4, rep(0,nrow(Sigma_z)),Sigma_z,lb=g(a_y), ub=g(a_yp1))
+  
+  theta_samp <- t(V_1samp) + t(Sigma_ztheta)%*%solve(Sigma_z)%*%t(V_0samp)
+  theta_samp <- t(theta_samp)
+  y_pred <- round_fun(g_inv(rnorm(10^4, mean=theta_samp[,ncol(theta_samp)], sd=sqrt(V+W))), y_max=y_max)
+  
+  return(y_pred)
+}
