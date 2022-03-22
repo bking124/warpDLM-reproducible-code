@@ -13,7 +13,6 @@ library(TruncatedNormal)
 library(mvnfast)
 
 source("./Code/helper_functions.R")
-source("./Code/SUTSE_functions.R")
 
 #Load Cincy Data
 load("./Data/heroinCallsCounts")
