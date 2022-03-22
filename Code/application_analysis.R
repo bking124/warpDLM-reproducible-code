@@ -2,13 +2,9 @@ library(dlm)
 library(rSTAR)
 library(tidyverse)
 library(mc2d)
-#library(coda)
 library(bayesplot)
-#library(MASS)
 library(TruncatedNormal)
-#library(ddst)
-#library(expm)
-#library(spatstat)
+library(spatstat)  #ewcdf function
 library(mvnfast)
 
 source("./Code/helper_functions.R")
@@ -115,19 +111,26 @@ y_smooth_all <- cbind(t(y_smooth_offline), y_smooth_pf)
 df_withsmooth <- data.frame(df, heroin_smooth = y_smooth_all[2,], 
                             other_smooth=y_smooth_all[1,])
 long_df <- df_withsmooth %>%  gather(key = "variable", value = "Count", -Date)
+
+png(filename = "Outputs/Figures/ODCountsTS.png", width=1200)
 ggplot(long_df, aes(x = Date, y = Count)) + 
   geom_line(aes(color = variable,  alpha=variable), size=1) +
   scale_color_manual(values = c("#00AFBB", "#00AFBB", "#E7B800","#E7B800")) +
   scale_alpha_manual(values = c(.5, 1, .5, 1))+
   legend_none()
+dev.off()
 
 
 #Plot efficiency
 #hist(Neff, breaks = "Scott", )
+png(filename = "Outputs/Figures/PF_ESS.png", width = 800)
 plot(1:length(Neff), Neff, type='l', xlab="Particle Filter Time Step", ylab="ESS")
+dev.off()
 
 #Plot Time in Loop
+png(filename = "Outputs/Figures/PF_TPL.png", width=800)
 plot(1:length(tpl), tpl, xlab="Particle Filter Time Step", ylab="Seconds in Loop Iteration")
+dev.off()
 
 #Plot PIT
 numTest = length(df_online$other)-1
@@ -143,6 +146,7 @@ for(i in 1:numTest){
   pvals2[i] = runif(1,empcdf2(y_test2[i]-1),empcdf2(y_test2[i]))
 }
 x <- seq(0,1, length.out=numTest)
+png(filename = "Outputs/Figures/calibration.png", width = 1200)
 par(pty="s",mfrow=c(1,2))
 plot(punif(x), sort(pvals), xlab="rPIT Values", ylab="Uniform Quantiles",
      main="Other OD Calibration", xlim=c(0,1), ylim=c(0,1))
@@ -152,3 +156,4 @@ plot(punif(x), sort(pvals2), xlab="rPIT Values", ylab="Uniform Quantiles",
      main="Heroin OD Calibration", xlim=c(0,1), ylim=c(0,1))
 matlines(x, apply(uniform,2,sort), col=alpha(rgb(0,0,0), 0.05), lty=1)
 lines(x,x, lty=2)
+dev.off()

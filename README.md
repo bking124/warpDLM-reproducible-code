@@ -30,13 +30,13 @@ The raw data used for this project was downloaded in February 2020 and can be fo
 
 ## Application
 
-There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored under <Outputs/ModelResults/application>. Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
+There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored [here](Outputs/ModelResults/application). Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
 
 There are four associated figures
-* d 
-* Code: Contains all R scripts needed to run analysis
-* Outputs: Contains any model outputs as well as paper figures
-* vvv
+* [Plot of overdose series with smoothing medians overlaid](Outputs/Figures/ODCountsTS.png)
+* [Plot of particle filter effective sample size across time](Outputs/Figures/PF_ESS.png)
+* [Plot of particle filter time per iteration](Outputs/Figures/PF_TPL.png)
+* [Plot of particle filter forecast calibration](Outputs/Figures/calibration.png)
 
 ## Simulation Results
 
