@@ -1,4 +1,4 @@
-#install.packages(c("doParallel", "foreach", "KFAS", "coda","truncdist", "doSNOW", "tscount", "VGAM"))
+#install.packages(c("doParallel", "foreach", "KFAS", "truncdist", "doSNOW", "tscount", "VGAM"))
 #install.packages("remotes")
 #remotes::install_github("drkowal/rSTAR")
 library(parallel)
@@ -6,13 +6,11 @@ library(doParallel)
 library(rSTAR)
 library(foreach)
 library(KFAS)
-library(coda)
 library(truncdist)
 library(doSNOW)
-library(tscount)
 library(VGAM)
 
-source("helper_functions.R")
+source("./Code/helper_functions.R")
 
 numCores <- detectCores()
 
@@ -32,7 +30,7 @@ pb <- txtProgressBar(max = numSeries*iterations, style = 3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress = progress)
 zipFC <- foreach(j=1:numSeries) %:%
-  foreach(i=itSeq, .combine=comb, .packages = c("KFAS", "truncdist", "tscount", "VGAM"),
+  foreach(i=itSeq, .combine=comb, .packages = c("KFAS", "truncdist", "VGAM"),
           .options.snow = opts, .multicombine=TRUE, .errorhandling = "pass") %dopar% {
             #Simulate Data
             set.seed(32*j)
@@ -74,4 +72,4 @@ zipFC <- foreach(j=1:numSeries) %:%
           }
 
 proc.time() - ptm
-saveRDS(zipFC, file='ZIP_forecasts_dglm.rds')
+saveRDS(zipFC, file='./Outputs/ModelResults/simulations/ZIP_forecasts_dglm.rds')

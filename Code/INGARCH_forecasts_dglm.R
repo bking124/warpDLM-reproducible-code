@@ -1,4 +1,4 @@
-#install.packages(c("doParallel", "foreach", "KFAS", "coda","truncdist", "doSNOW", "tscount"))
+#install.packages(c("doParallel", "foreach", "KFAS", "truncdist", "doSNOW", "tscount"))
 #install.packages("remotes")
 #remotes::install_github("drkowal/rSTAR")
 library(parallel)
@@ -6,12 +6,11 @@ library(doParallel)
 library(rSTAR)
 library(foreach)
 library(KFAS)
-library(coda)
 library(truncdist)
 library(doSNOW)
 library(tscount)
 
-source("helper_functions.R")
+source("./Code/helper_functions.R")
 
 (numCores <- detectCores())
 
@@ -68,4 +67,4 @@ inGarchFC <- foreach(j=1:numSeries) %:%
 close(pb)
 stopCluster(cl)
 proc.time() - ptm
-saveRDS(inGarchFC, file='INGARCH_forecasts_dglm.rds')
+saveRDS(inGarchFC, file='./Outputs/ModelResults/simulations/INGARCH_forecasts_dglm.rds')
