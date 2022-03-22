@@ -30,7 +30,7 @@ The raw data used for this project was downloaded in February 2020 and can be fo
 
 ## Application
 
-There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored under (Outputs/ModelResults/application). Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
+There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored under <Outputs/ModelResults/application>. Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
 
 There are four associated figures
 * d 
