@@ -19,7 +19,7 @@ There are a variety of required packages, which can be installed using the follo
     install.packages(c("doParallel", "foreach", "KFAS", "coda", "truncdist", 
                         "doSNOW", "tscount", "VGAM", "tidyverse", "dlm", 
                         "mc2d", "bayesplot", "TruncatedNormal", "mvnfast",
-                        "magrittr", "lubridate"))
+                        "magrittr", "lubridate", "spatstat"))
 
     
 
@@ -29,8 +29,14 @@ In this article, we use the warpDLM methodology to analyze counts of overdose ca
 The raw data used for this project was downloaded in February 2020 and can be found [here](Data/Cincinnati_Fire_Incidents.zip).
 
 ## Application
-There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored in the Outputs repository, under[ModelResults](Outputs/ModelResults/application). Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
 
+There are two main scripts for the application. The [first file](Code/application_data_cleaning.R) is a script which inputs the raw data file and outputs the formatted count time series of drug overdoses that we are analyzing. That formatted data can be found in the Data folder as well.  The [second file](Code/application_analysis.R) has the code to run the offline Gibbs sampler and online particle filter, as well as produce the figures from the paper. The intermediate model outputs are stored under (Outputs/ModelResults/application). Also note that this second file requires the [helper functions](Code/helper_functions.R) script, a collection of functions used in different parts of the analysis.
+
+There are four associated figures
+* d 
+* Code: Contains all R scripts needed to run analysis
+* Outputs: Contains any model outputs as well as paper figures
+* vvv
 
 ## Simulation Results
 
