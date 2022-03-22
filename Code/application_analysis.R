@@ -6,7 +6,6 @@ library(mc2d)
 library(bayesplot)
 #library(MASS)
 library(TruncatedNormal)
-#library(lubridate)
 #library(ddst)
 #library(expm)
 #library(spatstat)
@@ -81,8 +80,21 @@ Neff <-  pf_np_all$Neff
 tpl <- pf_np_all$update_time
 particles <- pf_np_all$theta_particles
 
+#Get np g
+y <- dat
+g_wrap <- apply(y, 2, g_cdf, distribution = "np")
+g_np <- function(y){ylist <- split(y, col(y)); mapply(function(x, y) x(y), g_wrap, ylist)}
+t_grid <- function(y, y_max){
+  sort(unique(c(0:min(2*max(y), y_max),
+                seq(0, min(2*max(y), y_max), length.out = 100),
+                quantile(unique(y[y!=0]), seq(0, 1, length.out = 100)))))
+}
+t_grid_list = apply(y,2,t_grid, y_max=Inf)
+g_inv_wrap <- mapply(g_inv_approx, g_wrap, t_grid_list)
+g_inv_np = function(y){ylist <- split(y, col(y)); mapply(function(x, y) x(y), g_inv_wrap, ylist)}
+
 #Draw from 'smoothing' distribution
-FF <- init_mod$FF
+FF <- matrix(c(1, 0), nrow = 1) %x% diag(2)
 offline_mod <- drug_results_np
 #Get V and W
 W <- apply(offline_mod$W_post, c(2,3), mcmcMean, sd=FALSE)
