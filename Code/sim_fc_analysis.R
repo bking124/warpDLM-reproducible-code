@@ -1,15 +1,24 @@
-library(tidyr)
+library(tidyverse)
 library(ggplot2)
-library(matrixStats)
 library(wesanderson)
 library(ddst)
 
-#Read in appropriate data
-dglm_dat <- readRDS('INGARCH_forecasts_dglm.rds')
-#dglm_dat <- readRDS('ZIP_forecasts_dglm.rds')
-warpDLM_dat <- readRDS('INGARCH_forecasts_warpDLM.rds')
-#warpDLM_dat <- readRDS('ZIP_forecasts_warpDLM.rds')
+#Analysis flag
+#Currently showing INGARCH (flag "ing")
+#Change to "zip" to show zero-inflated Poisson results
+flag = "ing"
+#flag = "zip"
 
+#Read in data
+if(flag == "ing"){
+  dglm_dat <- readRDS('Outputs/ModelResults/simulations/INGARCH_forecasts_dglm.rds')
+  warpDLM_dat <- readRDS('Outputs/ModelResults/simulations/INGARCH_forecasts_warpDLM.rds')
+}
+
+if (flag == "zip"){
+  dglm_dat <- readRDS('Outputs/ModelResults/simulations/ZIP_forecasts_dglm.rds')
+  warpDLM_dat <- readRDS('Outputs/ModelResults/simulations/ZIP_forecasts_warpDLM.rds')
+}
 
 listLen <- length(warpDLM_dat[[1]])
 warpDLM_dat <- lapply(warpDLM_dat, function(x){x[[listLen]] <- NULL; return(x)})
@@ -125,12 +134,15 @@ log_scores_diff <- log_scores_diff[,-4]
 df <- pivot_longer(data.frame(log_scores_diff), cols=everything(), names_to="Method")
 df$Method <- factor(df$Method , levels=c("nbDGLM","sqrt.wDLM", "id.wDLM", "np.wDLM"))
 
-# Most basic violin chart
+# Violin chart
+png(filename = paste0("Outputs/Figures/logscore_",flag,".png"), width=800)
 ggplot(df, aes(x=Method, y=value, fill=Method)) + geom_violin() + 
   geom_hline(yintercept = 0) + ylab("% Log Score Difference vs. Poisson DGLM")+
   scale_fill_manual(values=wes_palette(n=5, name="Darjeeling1")[-1])
+dev.off()
 
 ##############################Plot calibration chart####################################
+#Compute p values for test of uniformity
 ddst <- matrix(NA, 30, length(methods_titles))
 for(j in 1:30){
   for(k in 1:length(methods_titles)){
@@ -151,6 +163,9 @@ colnames(ddst) <- methods_titles
 ddst_df <- pivot_longer(data.frame(ddst), cols=everything(), names_to="Method")
 ddst_df$Method <- factor(ddst_df$Method , levels=c("PoisDGLM", "nbDGLM","sqrt.wDLM", "id.wDLM", "np.wDLM"))
 
+#Box plot of p values
+png(filename = paste0("Outputs/Figures/cal_pval_",flag,".png"), width=800)
 ggplot(ddst_df, aes(x=Method, y=value, fill=Method)) + geom_boxplot() +
   geom_hline(yintercept = 0.05) + ylab("P-value")+
   scale_fill_manual(values=wes_palette(n=5, name="Darjeeling1"))
+dev.off()
